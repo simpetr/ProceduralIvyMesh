@@ -1,4 +1,4 @@
-# ProceduralIvyMesh
+# Procedural Ivy Mesh
 
 In this project I tried to reproduce from scratch the "Ivy growing effect" inspired by @TommasoRomano_ amazing work.
 
