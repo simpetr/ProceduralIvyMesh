@@ -1,6 +1,6 @@
 # Procedural Ivy Mesh
 
-In this project I tried to reproduce from scratch the "Ivy growing effect" inspired by @TommasoRomano_ amazing work.
+In this project I tried to replicate from scratch the "Ivy growing effect" inspired by @TommasoRomano_ amazing work.
 
 ##### Next Steps
 
