@@ -15,4 +15,4 @@ In this first version the script works in the following way:
  - Look for other points at a certain distance with a certain degree of randomness.
  - Found all the desired points then a  mesh that goes through those points is created.
 
-![Execution_example](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Execution_example](https://media.giphy.com/media/tDHudLlCQr0J2k18D0/giphy.gif)
