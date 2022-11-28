@@ -1,26 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 public class BranchGenerator : MonoBehaviour
 {
-    public bool debugLine = false;
-    [Range(.1f, 1f),SerializeField]
-    private float _nodeDistance = .1f;
-    [Range(3, 20),SerializeField]
-    private int _nodesNum = 3;
-    [Range(.01f, 0.05f),SerializeField]
-    public float _branchWidth = 0.01f;
-    [SerializeField]
-    private Material _material;
+    [SerializeField] public bool DebugLine = false;
+    [Range(.1f, 1f),SerializeField] private float _nodeDistance = .1f;
+    [Range(1, 20),SerializeField] private int _nodesNum = 3;
+    [Range(.01f, 0.05f),SerializeField] private float _branchWidth = 0.01f;
+    [SerializeField] private Material _material;
+    [SerializeField] private GameObject _greenArea;
+    
     private List<Vector3> _points;
     private List<Vector3> _normals;
     private Vector3 _branchDirection;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
     private int _call = 0;
+
+    
     // Start is called before the first frame update
     private void Awake()
     {
@@ -32,7 +35,12 @@ public class BranchGenerator : MonoBehaviour
         _points = new List<Vector3>();
         _normals = new List<Vector3>();
 
-        DebugUtility.logger = debugLine;
+        DebugUtility.logger = DebugLine;
+    }
+
+    public void SetBranchParameters( Tuple<int, int> minMaxNodes)
+    {
+        _nodesNum = Random.Range(minMaxNodes.Item1, minMaxNodes.Item2);
     }
 
     public void Grow(Vector3 normal)
@@ -55,7 +63,8 @@ public class BranchGenerator : MonoBehaviour
         DebugUtility.DrawRay(startPosition+normal, surfaceParallel, Color.blue);
         BackRay(startPosition+normal+surfaceParallel,-normal,_nodesNum);
         
-        BuildMesh();
+        //BuildMesh();
+        StartCoroutine(SlowlyBuildMesh());
         
         //TODO Fix Coordinate problem
          transform.position = Vector3.zero;
@@ -104,10 +113,8 @@ public class BranchGenerator : MonoBehaviour
        
     }
     
-    //Create the mesh based on the points previously found.
-    private void BuildMesh()
+    IEnumerator SlowlyBuildMesh()
     {
-        
         Vector3[] verts = new Vector3[_points.Count * 2];
         int[] tris = new int[2 * (_points.Count - 1) * 3];
         int vertIndex = 0;
@@ -148,11 +155,78 @@ public class BranchGenerator : MonoBehaviour
 
             vertIndex += 2;
             triIndex += 6;
-            
+
+            if (i > 1)
+            {
+                
+                Vector3[] temp = verts.Skip(0).Take(i*2).ToArray();
+                int[] temp2= tris.Skip(0).Take(2 * (i - 1) * 3).ToArray();
+      
+                _mesh.vertices = temp;
+                _mesh.triangles = temp2;
+                _meshFilter.mesh = _mesh;
+                Instantiate(_greenArea, _points[i], Quaternion.identity);
+                
+                yield return new WaitForSeconds(1);
+            }
+
         }
         
         _mesh.vertices = verts;
         _mesh.triangles = tris;
         _meshFilter.mesh = _mesh;
+        
     }
+    
+    // //Create the mesh based on the points previously found.
+    // private void BuildMesh()
+    // {
+    //     
+    //     Vector3[] verts = new Vector3[_points.Count * 2];
+    //     int[] tris = new int[2 * (_points.Count - 1) * 3];
+    //     int vertIndex = 0;
+    //     int triIndex = 0;
+    //
+    //     for (int i = 0; i < _points.Count; i++)
+    //     {
+    //         Vector3 forward = Vector3.zero;
+    //         if (i < _points.Count - 1)
+    //         {
+    //             forward += _points[i + 1] - _points[i];
+    //         }
+    //
+    //         if (i > 0)
+    //         {
+    //             forward += _points[i] - _points[i - 1];
+    //         }
+    //         
+    //         forward.Normalize();
+    //         Vector3 left = new Vector3(-forward.z, 0.1f, forward.x);
+    //         Vector3 pointA = _points[i] + left * _branchWidth;
+    //         Vector3 pointB = _points[i] - left * _branchWidth;
+    //         DebugUtility.Sphere(pointA,Color.cyan);
+    //         DebugUtility.Sphere(pointB,Color.cyan);
+    //         verts[vertIndex] = pointA;
+    //         verts[vertIndex + 1] = pointB;
+    //
+    //         if (i < _points.Count - 1)
+    //         {
+    //             tris[triIndex] = vertIndex;
+    //             tris[triIndex + 1] = vertIndex + 2;
+    //             tris[triIndex + 2] = vertIndex + 1;
+    //             
+    //             tris[triIndex + 3] = vertIndex + 1;
+    //             tris[triIndex + 4] = vertIndex + 2;
+    //             tris[triIndex + 5] = vertIndex + 3;
+    //         }
+    //
+    //         vertIndex += 2;
+    //         triIndex += 6;
+    //         
+    //     }
+    //     
+    //     _mesh.vertices = verts;
+    //     _mesh.triangles = tris;
+    //     _meshFilter.mesh = _mesh;
+    // }
 }

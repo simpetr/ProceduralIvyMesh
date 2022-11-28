@@ -260,8 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be76e5f14cfee674cb30b491fb72b09b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boost: 3.5
-  positionLerpTime: 0.2
+  boost: 4
+  positionLerpTime: 0.3
   mouseSensitivityCurve:
     serializedVersion: 2
     m_Curve:
@@ -286,8 +286,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rotationLerpTime: 0.01
-  invertY: 0
+  rotationLerpTime: 0.072
+  invertY: 1
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -367,6 +367,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
@@ -389,8 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebca17fb2c1c654198c75b0020c5d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  branches: 3
-  branch: {fileID: 7226405791028227440, guid: d9882452f3ad44448ac4dbfb7ee3886d, type: 3}
+  _branches: 5
+  _ivy: {fileID: 7065090723279897766, guid: d60c2c7f222d5e849935a36f031264fb, type: 3}
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0

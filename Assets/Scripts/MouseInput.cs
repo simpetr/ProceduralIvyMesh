@@ -6,8 +6,8 @@ public class MouseInput : MonoBehaviour
 {
     
     [Range(1, 5)]
-    public int branches = 1;
-    public GameObject branch;
+    [SerializeField] private int _branches = 1;
+    [SerializeField] private GameObject _ivy;
     private Camera _mainCamera;
     private void Start()
     {
@@ -22,11 +22,8 @@ public class MouseInput : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                for(int i=0;i<branches;i++)
-                {
-                    var obj = Instantiate(branch, hit.point, Quaternion.identity);
-                    obj.GetComponent<BranchGenerator>().Grow(hit.normal);
-                }
+               Instantiate(_ivy, hit.point, Quaternion.identity).GetComponent<IvyGenerator>()
+                   .StartIvySpreading(_branches);
             }
         }
         

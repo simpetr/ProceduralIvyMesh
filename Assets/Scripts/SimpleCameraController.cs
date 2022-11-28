@@ -235,7 +235,7 @@ namespace UnityTemplateProjects
 #if ENABLE_INPUT_SYSTEM
             return lookAction.ReadValue<Vector2>();
 #else
-            return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 10;
+            return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 20;
 #endif
         }
 
