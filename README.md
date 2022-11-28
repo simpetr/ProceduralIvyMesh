@@ -11,7 +11,7 @@ In this project I tried to replicate from scratch the "Ivy growing effect" inspi
  - [ ] Build mesh piece by piece (coroutine) - Working on it.
  - [ ] Add some 3D models (e.g., flowers, grass) together with the rest of the mesh - Working on it.
 
-**(August 12/2021) - First version** 
+**(August 12/2021) - First version**  
 In this first version the script works in the following way:
 
  - Start from a point.
